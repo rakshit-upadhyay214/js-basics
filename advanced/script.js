@@ -30,8 +30,8 @@ Person.prototype.calculateAge = function (){
     console.log(2025-this.yearOfBirth);
 };
 
-john.calculateAge();
-john.retirementYear();
+// john.calculateAge();
+// john.retirementYear();
 
 // 2. Object.create() method - 
 var personProto = {
@@ -60,8 +60,8 @@ jane = Object.create(personProto, {
 var a = 1;
 var b = 2;
 a = 5;
-console.log("----a: ", a);
-console.log("---b: ", b);
+// console.log("----a: ", a);
+// console.log("---b: ", b);
 
 var obj1 = {
     name : "Jonas",
@@ -74,8 +74,8 @@ var obj2 = {
 }
 
 obj1 = obj2; //reference of obj2 is passed into obj1.
-console.log("---obj1", obj1.name);
-console.log("---obj2", obj2.name);
+// console.log("---obj1", obj1.name);
+// console.log("---obj2", obj2.name);
 
 /* OUTPUT
 >> a:  5
@@ -83,3 +83,48 @@ console.log("---obj2", obj2.name);
 >> obj1 Jasmine
 >> obj2 Jasmine
  */
+
+
+
+
+// Functions as the first class citizens
+// 1. Passing functions as arguments
+
+var arr = [1948, 1975, 2002, 2004];
+function arrCalc (arr, calcAge) {
+    var arrRes = [];
+    for(var i = 0; i<arr.length; i++) {
+        arrRes.push(calcAge(arr[i]));
+    }
+    return arrRes;
+}
+
+function calcAge(yearOfBirth){
+    return 2025-yearOfBirth;
+}
+var ages = arrCalc(arr, calcAge);
+console.log(ages);
+
+
+// 2. Recurring Functions: functions returning functions
+function interviewQuestion(job) {
+    console.log("---called outer function---");
+    
+    if (job === "designer") {
+        return function(name) {
+            console.log(name + ", can you please explain what is UX design?");
+        };
+    } else if (job === "teacher") {
+        return function(name) {
+            console.log("What subject do you teach, " + name + "?");
+        };
+    } else {
+        return function(name) {
+            console.log("Hello " + name + ", what do you do?");
+        };
+    }
+};
+
+// interviewQuestion("teacher")("John");
+var teacherQues = interviewQuestion("teacher");
+teacherQues("John");
