@@ -128,3 +128,55 @@ function interviewQuestion(job) {
 // interviewQuestion("teacher")("John");
 var teacherQues = interviewQuestion("teacher");
 teacherQues("John");
+
+
+// Clousers:-----------
+// An inner function has always access to the variables and parameters of its outer function, even after the outer function has returned.
+
+function interviewQuestion2 (job) {
+    return function (name) {
+        if (job === "designer") {
+            console.log(name + ", can you please explain what is UX design?");
+        } else if (job === "teacher") {
+            console.log("What subject do you teach, " + name + "?");
+        } else {
+            console.log("Hello " + name + ", what do you do?");
+        }
+    }
+};
+
+var designerQues = interviewQuestion2("designer");
+designerQues("Alice");
+interviewQuestion2("teacher")("Mark");
+
+
+// Bind, Call and Apply methods
+var john = {
+    name: "John",
+    age: 26,
+    job: "teacher",
+    presentation: function(style, timeOfDay) {
+        if (style === "formal") {
+            console.log("Good " + timeOfDay + ", Ladies and Gentlemen! I'm " + this.name + ", I'm a " + this.job + " and I'm " + this.age + " years old.");
+        } else if (style === "friendly") {
+            console.log("Hey! What's up? I'm " + this.name + ", I'm a " + this.job + " and I'm " + this.age + " years old. Have a nice " + timeOfDay + ".");
+        }
+    }
+};
+
+// john.presentation("friendly", "morning");
+
+var emily = {
+    name: "Emily",
+    age: 35,
+    job: "designer"
+}
+
+john.presentation.call(emily, "formal", "afternoon"); // method borrowing, here this keyword points to emily object, beacuse 1st argument of call method is the object to which this keyword should point.
+
+john.presentation.apply(emily, ["friendly", "evening"]); // same as call method but it takes arguments as an array.
+
+var johnFormal = john.presentation.bind(john, 'formal'); // bind method returns a new function, where this keyword is bound to the object passed as 1st argument and also presetting the arguments after that.
+johnFormal('evening');
+
+
